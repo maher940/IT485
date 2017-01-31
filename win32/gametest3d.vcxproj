@@ -48,8 +48,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Libraries\glew-1.12.0\include;C:\Libraries\SDL2-2.0.3\include;C:\Users\Bo\Desktop\gametest3d\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Libraries\glew-1.12.0\lib\Release\Win32;C:\Libraries\SDL2-2.0.3\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Jacob\IT485_2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jacob\IT485_2\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\..</OutDir>
     <IntDir>$(ProjectDir)\..</IntDir>
   </PropertyGroup>

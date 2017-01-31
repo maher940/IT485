@@ -49,7 +49,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\Jacob\IT485_2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Jacob\IT485_2\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Jacob\IT485_2\lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\..</OutDir>
     <IntDir>$(ProjectDir)\..</IntDir>
   </PropertyGroup>

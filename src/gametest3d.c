@@ -44,26 +44,30 @@ int main(int argc, char *argv[])
         return -1;
     }
         
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao); //make our vertex array object, we need it to restore state we set after binding it. Re-binding reloads the state associated with it.
+    glGenVertexArrays(1, &vao);//holds vertex information, makes vertex array in memory
+    glBindVertexArray(vao); //make our vertex array object, we need it to restore state we set after binding it. Re-binding reloads the state associated with it. modify this vertex buffer
     
     glGenBuffers(1, &triangleBufferObject); //create the buffer
-    glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //we're "using" this one now
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer
-    glBindBuffer(GL_ARRAY_BUFFER, 0); //unbind any buffers
+    glBindBuffer(GL_ARRAY_BUFFER, triangleBufferObject); //we're "using" this one now,binds the buffer as array buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); //formatting the data for the buffer, sets the data for buffer
+    glBindBuffer(GL_ARRAY_BUFFER, 0); //unbind any buffers,clears context
     
     slog("glError: %d", glGetError());
     
     while (bGameLoopRunning)
     {
+		//sdl function to get inputs
+		//update stuff
         if ( SDL_PollEvent(&e) ) 
         {
             if (e.type == SDL_QUIT)
                 bGameLoopRunning = 0;
+			//keyup or escape key pressed
             else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)
                 bGameLoopRunning = 0;
         }
-
+		//draw stuff
+		//background color
         glClearColor(0.0,0.0,0.0,0.0);
         glClear(GL_COLOR_BUFFER_BIT);
 

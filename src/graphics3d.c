@@ -16,9 +16,11 @@ GLuint graphics3d_get_shader_program()
 
 void graphics3d_next_frame()
 {
+	
     static Uint32 then = 0;
     Uint32 now;
     SDL_GL_SwapWindow(__graphics3d_window);
+	//number of ticks that pass when sdl begin tick=milisec
     now = SDL_GetTicks();
     if ((now - then) < __graphics3d_frame_delay)
     {
@@ -31,29 +33,34 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
 {
     const unsigned char *version;
     GLenum glew_status;
-        
+      //setup SDL  
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         slog("failed to initialize SDL!");
         return -1;
     }
+	//close sdl
     atexit(SDL_Quit);
     __graphics3d_frame_delay = frameDelay;
-    
+    //creates window,window height width etc
     __graphics3d_window = SDL_CreateWindow(project?project:"gametest3d",
                               SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED,
                               sw, sh,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     
-    
+    if(__graphics3d_window  == NULL)
+	{
+		slog("Fatal:Failed to create sdl window");
+		return -1;
+	}
     __graphics3d_gl_context = SDL_GL_CreateContext(__graphics3d_window);
     if (__graphics3d_gl_context == NULL)
     {
         slog("There was an error creating the OpenGL context!\n");
         return -1;
     }
-    
+    //make the current window is the one were draing to
     version = glGetString(GL_VERSION);
     if (version == NULL) 
     {
@@ -79,7 +86,8 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
     __graphics3d_shader_program = BuildShaderProgram("shaders/vs1.glsl", "shaders/fs1.glsl");
     if (__graphics3d_shader_program == -1)
     {
-        return -1;
+        slog("Error: failed to create shader program");
+		return -1;
     }
     
     slog("Using program %d", __graphics3d_shader_program);

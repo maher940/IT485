@@ -6,7 +6,6 @@ static SDL_GLContext __graphics3d_gl_context;
 static SDL_Window  * __graphics3d_window = NULL;
 static GLuint        __graphics3d_shader_program;
 static Uint32        __graphics3d_frame_delay = 33;
-
 void graphics3d_close();
 
 GLuint graphics3d_get_shader_program()
@@ -49,6 +48,9 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
                               sw, sh,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     
+	
+	//void SDL_GetWindowSize(SDL_Window* __graphics3d_window, int* width, int* height);
+
     if(__graphics3d_window  == NULL)
 	{
 		slog("Fatal:Failed to create sdl window");

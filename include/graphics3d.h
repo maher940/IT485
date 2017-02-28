@@ -1,6 +1,7 @@
 #ifndef __GRAPHICS3D_H__
 #define __GRAPHICS3D_H__
-
+extern int* w;
+extern int* h;
 /**
  * simple_logger
  * @license The MIT License (MIT)

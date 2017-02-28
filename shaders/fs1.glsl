@@ -1,7 +1,11 @@
 #version 300 es
-smooth in vec4 theColor;
-out vec4 outputColor;
+//smooth in vec4 theColor;
+
+smooth in vec2 UV;
+out vec3 outputColor;
+uniform sampler2D myTextureSampler;
+
 void main()
 {
-	outputColor = theColor;
+	outputColor = texture( myTextureSampler, UV ).rgb;
 }

@@ -13,7 +13,6 @@ GLuint BuildShaderProgram(const char *vsPath, const char *fsPath)
     
     vertexShader = CreateShader(GL_VERTEX_SHADER, vsPath);
     fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fsPath);
-        
     tempProgram = glCreateProgram();
     
     glAttachShader(tempProgram, vertexShader);

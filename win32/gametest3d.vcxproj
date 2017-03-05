@@ -13,10 +13,12 @@
   <ItemGroup>
     <ClCompile Include="..\include\controls.cpp" />
     <ClCompile Include="..\src\camera.cpp" />
+    <ClCompile Include="..\src\entity.cpp" />
     <ClCompile Include="..\src\gametest3d.c" />
     <ClCompile Include="..\src\graphics3d.c" />
     <ClCompile Include="..\src\shader.c" />
     <ClCompile Include="..\src\simple_logger.c" />
+    <ClCompile Include="..\src\UIPopup.cpp" />
     <ClCompile Include="loadobj.cpp" />
     <ClCompile Include="mesh.c" />
     <ClCompile Include="testmesh.cpp" />
@@ -28,7 +30,9 @@
     <ClInclude Include="..\include\graphics3d.h" />
     <ClInclude Include="..\include\shader.h" />
     <ClInclude Include="..\include\simple_logger.h" />
+    <ClInclude Include="..\include\UIPopup.h" />
     <ClInclude Include="..\src\camera.h" />
+    <ClInclude Include="..\src\entity.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="loadobj.h" />
     <ClInclude Include="mesh.h" />
@@ -39,6 +43,17 @@
   <ItemGroup>
     <None Include="..\shaders\fs1.glsl" />
     <None Include="..\shaders\vs1.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\bullet_build\src\BulletCollision\BulletCollision.vcxproj">
+      <Project>{6a148350-4d71-3955-bc08-065aa5bc9655}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\bullet_build\src\BulletDynamics\BulletDynamics.vcxproj">
+      <Project>{0f841f82-6083-3f47-8540-6c2b7dfe37b4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\bullet_build\src\LinearMath\LinearMath.vcxproj">
+      <Project>{4772ca0d-41c2-3ad1-934a-2365a9557056}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C8351047-707B-4D68-A801-6749E9509337}</ProjectGuid>
@@ -80,11 +95,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>C:\Users\Jacob\libtest\bullet3-2.86.1\src;C:\Users\Jacob\bullet_build\src;C:\Users\Jacob\IT485_2\include;C:\Users\Jacob\IT485_2\myproject\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;glew32s.lib;freeglut.lib;freetype271d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

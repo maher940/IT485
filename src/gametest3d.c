@@ -32,8 +32,30 @@
 #include <glm\gtx\string_cast.hpp>
 #include "loadobj.h"
 #include "texture.h"
+#include "UIPopup.h"
+#include <GL\glut.h>
+#include "btBulletDynamicsCommon.h"
+#include <GLFW\glfw3.h>
+#include <GL\freeglut.h>
+
+
+static int os;
+static int mainmenu;
+
+
+static int health;
+static int experience;
+static int mana;
+
+
+
+bool hudon = false;
+int hudon2 = 0;
+void ViewOrtho(int x, int y);
+void ViewPerspective(void);
 int main(int argc, char *argv[])
 {
+	glutInit(&argc, argv);
 	GLuint vao;
 	GLuint triangleBufferObject;
 	char bGameLoopRunning = 1;
@@ -41,226 +63,9 @@ int main(int argc, char *argv[])
 	SDL_Event buttons;
 	SDL_Event test;
 
-
-	
-	/*
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f
-	};
-
-	// Two UV coordinatesfor each vertex. They were created with Blender.
-	static const GLfloat g_uv_buffer_data[] = {
-		0.000059f, 1.0f - 0.000004f,
-		0.000103f, 1.0f - 0.336048f,
-		0.335973f, 1.0f - 0.335903f,
-		1.000023f, 1.0f - 0.000013f,
-		0.667979f, 1.0f - 0.335851f,
-		0.999958f, 1.0f - 0.336064f,
-		0.667979f, 1.0f - 0.335851f,
-		0.336024f, 1.0f - 0.671877f,
-		0.667969f, 1.0f - 0.671889f,
-		1.000023f, 1.0f - 0.000013f,
-		0.668104f, 1.0f - 0.000013f,
-		0.667979f, 1.0f - 0.335851f,
-		0.000059f, 1.0f - 0.000004f,
-		0.335973f, 1.0f - 0.335903f,
-		0.336098f, 1.0f - 0.000071f,
-		0.667979f, 1.0f - 0.335851f,
-		0.335973f, 1.0f - 0.335903f,
-		0.336024f, 1.0f - 0.671877f,
-		1.000004f, 1.0f - 0.671847f,
-		0.999958f, 1.0f - 0.336064f,
-		0.667979f, 1.0f - 0.335851f,
-		0.668104f, 1.0f - 0.000013f,
-		0.335973f, 1.0f - 0.335903f,
-		0.667979f, 1.0f - 0.335851f,
-		0.335973f, 1.0f - 0.335903f,
-		0.668104f, 1.0f - 0.000013f,
-		0.336098f, 1.0f - 0.000071f,
-		0.000103f, 1.0f - 0.336048f,
-		0.000004f, 1.0f - 0.671870f,
-		0.336024f, 1.0f - 0.671877f,
-		0.000103f, 1.0f - 0.336048f,
-		0.336024f, 1.0f - 0.671877f,
-		0.335973f, 1.0f - 0.335903f,
-		0.667969f, 1.0f - 0.671889f,
-		1.000004f, 1.0f - 0.671847f,
-		0.667979f, 1.0f - 0.335851f
-	};
-
-	/*
-	const float triangleVertices[] = {
-		//0.0f, 0.5f, 0.0f, 1.0f,
-		//0.5f, -0.366f, 0.0f, 1.0f,
-		//-0.5f, -0.366f, 0.0f, 1.0f,
-		-1.0f,-1.0f,0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f,1.0f,0.0f,
-		//next part contains vertex colors
-		1.0f, 0.0f, 0.0f, 1.0f,
-		0.0f, 1.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 1.0f, 1.0f
-	}; //we love you vertices!
-	*/
-	/*
-	GLuint Texture = loadBMP_custom("uvtemplate.bmp");
-
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f,-1.0f,-1.0f, // triangle 1 : begin
-		-1.0f,-1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f, // triangle 1 : end
-		1.0f, 1.0f,-1.0f, // triangle 2 : begin
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f, // triangle 2 : end
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f
-	};
-	static const GLfloat g_color_buffer_data[] = {
-		0.583f, 0.771f, 0.014f,
-		0.609f, 0.115f, 0.436f,
-		0.327f, 0.483f, 0.844f,
-		0.822f, 0.569f, 0.201f,
-		0.435f, 0.602f, 0.223f,
-		0.310f, 0.747f, 0.185f,
-		0.597f, 0.770f, 0.761f,
-		0.559f, 0.436f, 0.730f,
-		0.359f, 0.583f, 0.152f,
-		0.483f, 0.596f, 0.789f,
-		0.559f, 0.861f, 0.639f,
-		0.195f, 0.548f, 0.859f,
-		0.014f, 0.184f, 0.576f,
-		0.771f, 0.328f, 0.970f,
-		0.406f, 0.615f, 0.116f,
-		0.676f, 0.977f, 0.133f,
-		0.971f, 0.572f, 0.833f,
-		0.140f, 0.616f, 0.489f,
-		0.997f, 0.513f, 0.064f,
-		0.945f, 0.719f, 0.592f,
-		0.543f, 0.021f, 0.978f,
-		0.279f, 0.317f, 0.505f,
-		0.167f, 0.620f, 0.077f,
-		0.347f, 0.857f, 0.137f,
-		0.055f, 0.953f, 0.042f,
-		0.714f, 0.505f, 0.345f,
-		0.783f, 0.290f, 0.734f,
-		0.722f, 0.645f, 0.174f,
-		0.302f, 0.455f, 0.848f,
-		0.225f, 0.587f, 0.040f,
-		0.517f, 0.713f, 0.338f,
-		0.053f, 0.959f, 0.120f,
-		0.393f, 0.621f, 0.362f,
-		0.673f, 0.211f, 0.457f,
-		0.820f, 0.883f, 0.371f,
-		0.982f, 0.099f, 0.879f
-}; 
-
-	static const GLfloat g_uv_buffer_data[] = {
-		0.000059f, 1.0f - 0.000004f,
-		0.000103f, 1.0f - 0.336048f,
-		0.335973f, 1.0f - 0.335903f,
-		1.000023f, 1.0f - 0.000013f,
-		0.667979f, 1.0f - 0.335851f,
-		0.999958f, 1.0f - 0.336064f,
-		0.667979f, 1.0f - 0.335851f,
-		0.336024f, 1.0f - 0.671877f,
-		0.667969f, 1.0f - 0.671889f,
-		1.000023f, 1.0f - 0.000013f,
-		0.668104f, 1.0f - 0.000013f,
-		0.667979f, 1.0f - 0.335851f,
-		0.000059f, 1.0f - 0.000004f,
-		0.335973f, 1.0f - 0.335903f,
-		0.336098f, 1.0f - 0.000071f,
-		0.667979f, 1.0f - 0.335851f,
-		0.335973f, 1.0f - 0.335903f,
-		0.336024f, 1.0f - 0.671877f,
-		1.000004f, 1.0f - 0.671847f,
-		0.999958f, 1.0f - 0.336064f,
-		0.667979f, 1.0f - 0.335851f,
-		0.668104f, 1.0f - 0.000013f,
-		0.335973f, 1.0f - 0.335903f,
-		0.667979f, 1.0f - 0.335851f,
-		0.335973f, 1.0f - 0.335903f,
-		0.668104f, 1.0f - 0.000013f,
-		0.336098f, 1.0f - 0.000071f,
-		0.000103f, 1.0f - 0.336048f,
-		0.000004f, 1.0f - 0.671870f,
-		0.336024f, 1.0f - 0.671877f,
-		0.000103f, 1.0f - 0.336048f,
-		0.336024f, 1.0f - 0.671877f,
-		0.335973f, 1.0f - 0.335903f,
-		0.667969f, 1.0f - 0.671889f,
-		1.000004f, 1.0f - 0.671847f,
-		0.667979f, 1.0f - 0.335851f
-	};
-
-
-
-	*/
-
+	health = 100;
+	mana = 100;
+	experience = 0;
 	init_logger("gametest3d.log");
 	if (graphics3d_init(1024, 768, 1, "gametest3d", 33) != 0)
 	{
@@ -332,6 +137,8 @@ int main(int argc, char *argv[])
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	GLfloat cameraSpeed = 0.05f;
 	
+
+
 	while (bGameLoopRunning)
 	{
 		//sdl function to get inputs
@@ -349,31 +156,48 @@ int main(int argc, char *argv[])
 			{
 				//cameraPos += cameraSpeed * cameraFront;
 				campos += cameraSpeed * cameraFront;
+
+				//hudon = true;
 				printf("w\n");
 			}
+			
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_s)
 			{
 				//cameraPos += cameraSpeed * cameraFront;
 				campos -= cameraSpeed * cameraFront;
+				//hudon = false;
 				printf("s\n");
 			}
+			
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_a)
 			{
 				//cameraPos += cameraSpeed * cameraFront;
 				campos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 				printf("a\n");
+				health = health - 10;
+				mana = mana + 10;
+				experience = experience + 100;
 			}
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_d)
 			{
 				//cameraPos += cameraSpeed * cameraFront;
 				campos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 				printf("d\n");
+				//health = health - 10;
+				//mana = mana + 10;
+				//experience = experience + 100;
+				//printf("%d", health);
+
+
+				
 			}
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_p)
 			{
 				//cameraPos += cameraSpeed * cameraFront;
 				//campos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 				//std::cout << glm::to_string(view) << std::endl;
+				printf("p\n");
+				//drawstats(health, experience, mana);
 			}
 			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_o)
 			{
@@ -381,8 +205,16 @@ int main(int argc, char *argv[])
 				//campos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 				//std::cout << glm::to_string(view) << std::endl;
 				//std::cout << glm::to_string(vertices) << std::endl;
-
+				//drawstats(100, 50, 100);
+				//glorth
+				
 			}
+			else if (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_TAB)
+			{
+				hudon2++;
+				
+			}
+			
 		}
 		//draw stuff
 		//background color
@@ -390,7 +222,7 @@ int main(int argc, char *argv[])
 		glClear(GL_COLOR_BUFFER_BIT);
 		//if (SDL_PollEvent(&buttons))
 		//{
-			
+		//drawstats(100, 50, 100);
 		//}
 		//view = glm::lookAt(campos, campos + cameraFront, cameraUp);
 		//glm::mat4 projection;
@@ -401,25 +233,9 @@ int main(int argc, char *argv[])
 		View = glm::lookAt(campos, campos + cameraFront, cameraUp);
 		glm::mat4 mvp = Projection * View * Model;
 
-		/*
-		glm::mat4x4 view;
-		GLfloat radius = 10.0f;
-		GLfloat camX = sin(SDL_GetTicks()) * radius;
-		GLfloat camZ = cos(SDL_GetTicks()) * radius;
-		view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		// Projection 
-		glm::mat4 projection;
-		projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-		// Get the uniform locations
-		GLint modelLoc = glGetUniformLocation(graphics3d_get_shader_program(), "model");
-		GLint viewLoc = glGetUniformLocation(graphics3d_get_shader_program(), "view");
-		GLint projLoc = glGetUniformLocation(graphics3d_get_shader_program(), "projection");
-		// Pass the matrices to the shader
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		*/
 
-
+		//ViewOrtho(1024, 768);
+		//ViewPerspective();
 		/* drawing code in here! */
 		glUseProgram(graphics3d_get_shader_program());
 		//GLint viewLoc = glGetUniformLocation(graphics3d_get_shader_program(), "view");
@@ -458,13 +274,129 @@ int main(int argc, char *argv[])
 
 		
 
+
+		if (hudon2 %2 != 0)
+		{
+			ViewOrtho(1024, 768);
+
+			drawstats(health, experience, mana);
+		}
+
+		ViewOrtho(1024, 768);
+		drawhud(health, mana);
+		ViewPerspective();
+		//glRasterPos2i(100, 120);
+		////glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		//glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"text to render");
+
+		//glRasterPos3f(30.0f, 20.0f, 0.0f);
+		//glDisable(GL_TEXTURE_2D);
+		//glColor3fv(1,0,0);
+		//glColor3f(1, 0, 0);
+		//glLoadIdentity();
+		//glRasterPos2i(100, 100);
+		//glutBitmapString(GLUT_BITMAP_HELVETICA_12, (UCHAR*)"This is a simple text.");
+		//glEnable(GL_TEXTURE_2D);
+		//glutBitmapString(GLUT_BITMAP_HELVETICA_18, "Hello World!");
+		
+		glColor3f(1, 0, 0);
+		//glRasterPos2f(50, 50);
+		//std::string text;
+		//text = "This is a simple text.";
+		//int len, i;
+		//std::string healthstring = std::to_string(health);
+		//std::string manastring = std::to_string(mana);
+		//std::string expstring = std::to_string(experience);
+/*
+		std::string healthstring = "Total Health: " + std::to_string(health);
+		
+		
+		
+		glWindowPos2i(300, 600);
+		//len = (int)strlen(text);
+		int len = healthstring.length();
+		
+		
+		for (int i = 0; i < len; i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, healthstring[i]);
+		}
+		
+		std::string manastring = "Total Mana: " + std::to_string(mana);
+
+		glWindowPos2i(300, 550);
+		int len2 = manastring.length();
+
+
+		for (int i = 0; i < len2; i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, manastring[i]);
+		}
+
+		std::string expstring = "Total Exp: " + std::to_string(experience);
+		glWindowPos2i(300, 500);
+		int len3 = expstring.length();
+
+		for (int i = 0; i < len3; i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, expstring[i]);
+		}
+
+
+
+		*/
+
 		// Send our transformation to the currently bound shader, 
 		
+		//glRasterPos2i(10, 10);
+		//std::string s = "Some text";
+		//std::string text;
+		//text = "This is a simple text.";
+		//for (int i = 0; i<text.size(); i++) {
+		//	glutBitmapCharacter(GLUT_BITMAP_9_BY_15, (int)text[i]); // generation of characters in our text with 9 by 15 GLU font
+		//}
 
-
+		//void * font = GLUT_BITMAP_9_BY_15;
+		/*void * font = GLUT_BITMAP_9_BY_15;
+		for (std::string::iterator i = s.begin(); i != s.end(); ++i)
+		{
+			char c = *i;
+			//this does nothing, color is fixed for Bitmaps when calling glRasterPos
+			//glColor3f(1.0, 0.0, 1.0); 
+			//glutBitmapCharacter(font, c);
+			//glutSetColor(2, 2, 2, 2);
+		}
+		*/
+		//glBegin
+		
+		//ViewOrtho(1024, 768);
+		
+		//ViewPerspective();
+		
 		graphics3d_next_frame();
 	}
 	return 0;
 }
+
+
+
+
+void ViewOrtho(int x, int y)							// Set Up An Ortho View
+{
+	glMatrixMode(GL_PROJECTION);					// Select Projection
+	glPushMatrix();							// Push The Matrix
+	glLoadIdentity();						// Reset The Matrix
+	glOrtho(0, x, y, 0, -1, 1);				// Select Ortho Mode
+	glMatrixMode(GL_MODELVIEW);					// Select Modelview Matrix
+	glPushMatrix();							// Push The Matrix
+	glLoadIdentity();						// Reset The Matrix
+}
+
+void ViewPerspective(void)							// Set Up A Perspective View
+{
+	glMatrixMode(GL_PROJECTION);					// Select Projection
+	glPopMatrix();							// Pop The Matrix
+	glMatrixMode(GL_MODELVIEW);					// Select Modelview
+	glPopMatrix();							// Pop The Matrix
+}
+
+
 
 /*eol@eof*/
